@@ -1,0 +1,22 @@
+{
+  "name": "pw-ui",
+  "version": "1.0.0",
+  "description": "this is a place for ui automation experiments",
+  "main": "index.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/y-tikhenkiy/pw-ui.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/y-tikhenkiy/pw-ui/issues"
+  },
+  "homepage": "https://github.com/y-tikhenkiy/pw-ui#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.42.1",
+    "@types/node": "^20.11.26"
+  }
+}
