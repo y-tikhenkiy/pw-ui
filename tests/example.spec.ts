@@ -16,12 +16,12 @@ test('has title "Add User"', async ({ page }) => {
 });
 
 test('should be able to "Add User"', async ({ page }) => {
-let firstName: string = faker.person.firstName();
-let lastName: string = faker.person.lastName();
-let email: string = faker.internet.email();
-let userPass: string = faker.internet.password({length:8})
+  let firstName: string = faker.person.firstName();
+  let lastName: string = faker.person.lastName();
+  let email: string = faker.internet.email();
+  let userPass: string = faker.internet.password({length:8})
 
-console.log(`first name:\t${firstName} \nlast name:\t${lastName} \nemail:\t\t${email} \npassword:\t${userPass}`);
+  console.log(`first name:\t${firstName} \nlast name:\t${lastName} \nemail:\t\t${email} \npassword:\t${userPass}`);
 
   await page.goto('./');
   await page.locator('#signup').click();
