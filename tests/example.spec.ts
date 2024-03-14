@@ -1,5 +1,6 @@
 import { test, expect } from '@playwright/test';
 import {faker} from '@faker-js/faker'
+import { SignIn } from '../project/pages/signIn';
 
 test('has title "Contact List App"', async ({ page }) => {
   await page.goto('./');
@@ -34,3 +35,23 @@ test('should be able to "Add User"', async ({ page }) => {
   await expect(page).toHaveTitle('My Contacts');
   await expect(page.url()).toContain('/contactList');
 });
+
+test.only('should add new user via POM', async ({page}) =>{
+  const signInPage = new SignIn(page);
+  let firstName: string = faker.person.firstName();
+  let lastName: string = faker.person.lastName();
+  let email: string = faker.internet.email();
+  let userPass: string = faker.internet.password({length:8})
+
+  console.log(`first name:\t${firstName} \nlast name:\t${lastName} \nemail:\t\t${email} \npassword:\t${userPass}`);
+
+  await signInPage.navigateToLogIn('./');
+  const signUpPage = await signInPage.clickSignUpButton();
+  await signUpPage.addUser(firstName, lastName, email, userPass);
+  
+  await expect(page).toHaveTitle('My Contacts');
+  await expect(page.url()).toContain('/contactList');
+
+
+
+})
