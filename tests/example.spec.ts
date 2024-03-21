@@ -52,7 +52,7 @@ test('should add new user via POM', async ({page}) =>{
   await expect(page.url()).toContain('/contactList');
 })
 
-test('should sign in to existing profile ', async ({page}) => {
+test('should sign in to existing profile', async ({page}) => {
   const signInPage = new SignIn(page);
 
   await signInPage.navigateToLogIn('./');

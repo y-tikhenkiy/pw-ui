@@ -1,4 +1,6 @@
 import { defineConfig, devices } from '@playwright/test';
+import 'dotenv/config';
+
 
 /**
  * Read environment variables from file.
@@ -25,6 +27,9 @@ export default defineConfig({
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
     baseURL: 'https://thinking-tester-contact-list.herokuapp.com/',
+    extraHTTPHeaders: {
+      Authorization: `Bearer ${process.env.API_TOKEN}`
+    },
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
