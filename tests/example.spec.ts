@@ -2,6 +2,7 @@ import { test, expect } from '@playwright/test';
 import {faker} from '@faker-js/faker'
 import { SignIn } from '../project/pages/signIn';
 
+
 test('has title "Contact List App"', async ({ page }) => {
   await page.goto('./');
 
@@ -36,7 +37,7 @@ test('should be able to "Add User"', async ({ page }) => {
   await expect(page.url()).toContain('/contactList');
 });
 
-test.only('should add new user via POM', async ({page}) =>{
+test('should add new user via POM', async ({page}) =>{
   const signInPage = new SignIn(page);
   let firstName: string = faker.person.firstName();
   let lastName: string = faker.person.lastName();
@@ -49,7 +50,14 @@ test.only('should add new user via POM', async ({page}) =>{
 
   await expect(page).toHaveTitle('My Contacts');
   await expect(page.url()).toContain('/contactList');
+})
 
+test('should sign in to existing profile ', async ({page}) => {
+  const signInPage = new SignIn(page);
 
+  await signInPage.navigateToLogIn('./');
+  await signInPage.login();
+
+  await expect(page.locator(`//table[@id='myTable']/tr[1]/td[2]`)).toHaveText(/My First Contact/);
 
 })
