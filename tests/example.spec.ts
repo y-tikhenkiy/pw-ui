@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 import {faker} from '@faker-js/faker'
-import { SignIn } from '../project/pages/signIn';
+import { SignIn } from '../project/pages/signIn.page'
 
 
 test('has title "Contact List App"', async ({ page }) => {
@@ -55,9 +55,26 @@ test('should add new user via POM', async ({page}) =>{
 test('should sign in to existing profile', async ({page}) => {
   const signInPage = new SignIn(page);
 
-  await signInPage.navigateToLogIn('./');
+  await signInPage.navigateToLogIn('/');
   await signInPage.login();
 
-  await expect(page.locator(`//table[@id='myTable']/tr[1]/td[2]`)).toHaveText(/My First Contact/);
+  await expect(page.url()).toContain("contactList");
+  await expect(page.locator(`//table[@id='myTable']/tr[1]/td[2]`)).toHaveText(/Montana Rodriguez/);
 
+})
+
+test.only('should open contact details from the contact list', async({page}) => {
+  const signInPage = new SignIn(page);
+  const fullNameLocator = page.locator(`//table[@id='myTable']/tr[1]/td[2]`)
+  const contactFirstName = await page.locator('#firstName');
+  const contactLastName = await page.locator('#lastName');
+  
+  await signInPage.navigateToLogIn('/');
+  await signInPage.login();
+  const fullName = await page.locator(`//table[@id='myTable']/tr[1]/td[2]`).innerText();
+  const fullNameArr = fullName.split(' ');
+  await page.locator(`//table[@id='myTable']/tr[1]/td[2]`).click();
+
+  await expect(contactFirstName).toHaveText(fullNameArr[0]);
+  await expect(contactLastName).toHaveText(fullNameArr[1]);
 })
