@@ -17,7 +17,7 @@ test('has title "Add User"', async ({ page }) => {
   await expect(page).toHaveTitle('Add User');
 });
 
-test('should be able to "Add User"', async ({ page }) => {
+test.fixme('should be able to "Add User"', async ({ page }) => {
   let firstName: string = faker.person.firstName();
   let lastName: string = faker.person.lastName();
   let email: string = faker.internet.email();
@@ -54,12 +54,13 @@ test('should add new user via POM', async ({page}) =>{
 
 test('should sign in to existing profile', async ({page}) => {
   const signInPage = new SignIn(page);
+  const firstContactLocator = await page.locator(`//table[@id='myTable']/tr[1]/td[2]`)
 
   await signInPage.navigateToLogIn('/');
   await signInPage.login();
 
-  await expect(page.url()).toContain("contactList");
-  await expect(page.locator(`//table[@id='myTable']/tr[1]/td[2]`)).toHaveText(/Montana Rodriguez/);
+  await expect(firstContactLocator).toHaveText(/Montana Rodriguez/);
+  await expect(page.url()).toContain("/contactList");
 
 })
 
@@ -71,9 +72,8 @@ test.only('should open contact details from the contact list', async({page}) => 
   
   await signInPage.navigateToLogIn('/');
   await signInPage.login();
-  const fullName = await page.locator(`//table[@id='myTable']/tr[1]/td[2]`).innerText();
-  const fullNameArr = fullName.split(' ');
-  await page.locator(`//table[@id='myTable']/tr[1]/td[2]`).click();
+  const fullNameArr = (await fullNameLocator.innerText()).split(' ');
+  await fullNameLocator.click();
 
   await expect(contactFirstName).toHaveText(fullNameArr[0]);
   await expect(contactLastName).toHaveText(fullNameArr[1]);

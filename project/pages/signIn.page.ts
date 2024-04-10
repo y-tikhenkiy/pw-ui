@@ -1,12 +1,12 @@
 import { Locator, Page } from "@playwright/test";
-import { SingUp } from "./signUp.page";
+import { SignUp } from "./signUp.page";
 import { getAuthData } from "../../utils";
 import { BasePage } from "./base.page";
 
 export class SignIn extends BasePage {
 
-readonly signUpButton: Locator = this.page.locator('#signup');
-readonly submitButton: Locator = this.page.locator('#submit');
+private signUpButton: Locator = this.page.locator('#signup');
+private submitButton: Locator = this.page.locator('#submit');
 
 async navigateToLogIn(link: string){
     return this.page.goto(link).catch((e) => this.errorHandling(e, this.page));
@@ -22,7 +22,7 @@ async login(){
 
 async clickSignUpButton() {
     await this.signUpButton.click();
-    return new SingUp(this.page);
+    return new SignUp(this.page);
 }
 
 errorHandling(error: Error, page: Page) {
