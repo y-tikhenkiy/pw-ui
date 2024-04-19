@@ -1,6 +1,6 @@
 import { expect, Locator } from "@playwright/test";
 import { BasePage } from "./base.page";
-import { faker } from "@faker-js/faker";
+import { faker, th } from "@faker-js/faker";
 
 export class AddContact extends BasePage{
     private firstNameInput: Locator = this.page.locator("#firstName");
@@ -14,49 +14,69 @@ export class AddContact extends BasePage{
     private stateProvinceInput: Locator = this.page.locator("#stateProvince");
     private postalCodeInput: Locator = this.page.locator("#postalCode");
     private countryInput: Locator = this.page.locator("#country");
+    private submitButton: Locator = this.page.locator("#submit");
 
     async expectLoaded() {
         await expect(this.firstNameInput, 'Expected Add Contact page to be opened').toBeVisible();
         await expect(this.lastNameInput, 'Expected Add Contact page to be opened').toBeVisible();
     }
 
-    async fillFirstNameField() {
-        await this.firstNameInput.fill(faker.person.firstName());
-    }
-    async fillLastNameField(lastName:string) {
+    async fillFullNameFields() {
+        await this.firstNameInput.fill(faker.person.firstName(), {timeout:1000});
         await this.lastNameInput.fill(faker.person.lastName());
     }
-
-    async fillbirtdayField() {
-        await this.emailInput.fill(`${faker.date.birthdate().getFullYear()}-${faker.date.birthdate().getMonth()}-${faker.date.birthdate().getDay()}`)
+  
+    async fillBirtdayField() {
+        await this.birtdayInput.fill(`${faker.date.birthdate().getFullYear()}-${faker.date.birthdate().getMonth()}-${faker.date.birthdate().getDay()}`)
     }
-    async fillemailField() {
-        await this.emailInput.fill(faker.internet.email({provider: 'example.contats.io'}));
+    async fillEmailField() {
+        await this.emailInput.fill(faker.internet.email({provider: 'example.contacts.io'}));
     }
-    async fillphoneField() {
-
-    }
-    async fillstreet1Field() {
+    async fillPhoneField() {
+        await this.phoneInput.fill(faker.phone.number());
 
     }
-    async fillstreet2Field() {
+    async fillStreet1Field() {
+        await this.street1Input.fill(faker.location.streetAddress());
 
     }
-    async fillcityField() {
+    async fillStreet2Field() {
+        await this.street2Input.fill(faker.location.streetAddress());
+    }
+    async fillCityField() {
+        await this.cityInput.fill(faker.location.city());
 
     }
-    async fillstateProvinceField() {
-
+    async fillStateProvinceField() {
+        await this.stateProvinceInput.fill(faker.location.state());
     }
-    async fillpostalCodeField() {
-
+    async fillPostalCodeField() {
+        await this.postalCodeInput.fill(faker.location.zipCode('#####'))
     }
-    async fillcountryField() {
-
+    async fillCountryField() {
+        await this.countryInput.fill(faker.location.country())
     }
 
+    async submitNewContactForm() {
+        await this.submitButton.click();
+    }
 
     async fillAndSubmitContactForm(){
-
+        await this.expectLoaded();
+        
+        await this.fillFullNameFields();
+        await this.page.waitForTimeout(2000);
+        // await this.fillBirtdayField();
+        // await this.fillEmailField();
+        // await this.fillPhoneField();
+        // await this.fillStreet1Field();
+        // await this.fillStreet2Field();
+        // await this.fillCityField();
+        // await this.fillStateProvinceField();
+        // await this.fillStateProvinceField();
+        // await this.fillPostalCodeField();
+        // await this.fillPostalCodeField();
+        // await this.fillCountryField();
+        await this.submitNewContactForm();
     }
 }

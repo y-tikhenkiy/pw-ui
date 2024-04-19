@@ -1,6 +1,7 @@
 import { test, expect } from '@playwright/test';
 import {faker} from '@faker-js/faker'
 import { SignIn } from '../project/pages/signIn.page'
+import { Application } from '../project';
 
 
 test('has title "Contact List App"', async ({ page }) => {
@@ -64,9 +65,9 @@ test('should sign in to existing profile', async ({page}) => {
 
 })
 
-test.only('should open contact details from the contact list', async({page}) => {
+test('should open contact details from the contact list', async({page}) => {
   const signInPage = new SignIn(page);
-  const fullNameLocator = page.locator(`//table[@id='myTable']/tr[1]/td[2]`)
+  const fullNameLocator = page.locator(`//table[@id='myTable']/tr[1]/td[2]`);
   const contactFirstName = await page.locator('#firstName');
   const contactLastName = await page.locator('#lastName');
   
@@ -77,4 +78,27 @@ test.only('should open contact details from the contact list', async({page}) => 
 
   await expect(contactFirstName).toHaveText(fullNameArr[0]);
   await expect(contactLastName).toHaveText(fullNameArr[1]);
+})
+
+test.only('should add a new contact', async({page}) => {
+  const app = new Application(page);
+  const contactFirstName = await page.locator('#firstName');
+  const contactLastName = await page.locator('#lastName');
+  const fullNameLocator = page.locator(`//table[@id='myTable']/tr[last()]/td[2]`);
+
+  let firstName: string = faker.person.firstName();
+  let lastName: string = faker.person.lastName();
+  let email: string = faker.internet.email();
+  let userPass: string = faker.internet.password({length:8})
+
+  await app.signIn.navigateToLogIn('/');
+  // await app.signIn.login();
+  await app.signIn.clickSignUpButton();
+  await app.signUp.addUser(firstName, lastName, email, userPass);
+  await app.contactList.addNewContact();
+  await app.addContact.fillAndSubmitContactForm();
+  await app.contactList.clickOnLastAddedContactName();
+
+  await expect(await fullNameLocator.innerText()).toContain(contactFirstName.innerText());
+
 })
