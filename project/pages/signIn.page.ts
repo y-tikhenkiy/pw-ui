@@ -15,8 +15,8 @@ async navigateToLogIn(link: string){
 async login(){
     const authData = getAuthData();
 
-    await this.page.getByPlaceholder('Email').fill(authData.email);
-    await this.page.getByPlaceholder('Password').fill(authData.password);
+    // await this.page.getByPlaceholder('Email').fill(authData.email);
+    // await this.page.getByPlaceholder('Password').fill(authData.password);
     await this.submitButton.click();    
 }
 

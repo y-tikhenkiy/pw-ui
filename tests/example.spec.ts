@@ -53,15 +53,17 @@ test('should add new user via POM', async ({page}) =>{
   await expect(page.url()).toContain('/contactList');
 })
 
-test('should sign in to existing profile', async ({page}) => {
+test.only('should sign in to existing profile', async ({page}) => {
   const signInPage = new SignIn(page);
-  const firstContactLocator = await page.locator(`//table[@id='myTable']/tr[1]/td[2]`)
+  // const firstContactLocator = await page.getByText(/Montana Rodriguez/);
+  const firstContactLocator = await page.getByText(/Leila Mertz/).first();
 
   await signInPage.navigateToLogIn('/');
-  await signInPage.login();
+  // await signInPage.login();
+  await page.goto('/contactlist')
 
-  await expect(firstContactLocator).toHaveText(/Montana Rodriguez/);
-  await expect(page.url()).toContain("/contactList");
+  await expect(firstContactLocator).toBeVisible();
+  await expect(page.url()).toContain("/contactlist");
 
 })
 

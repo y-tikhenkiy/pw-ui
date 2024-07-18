@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "description": "this is a place for ui automation experiments",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "chrome:headed": "playwright test --project=chromium --headed",
+    "test:api": "playwright test --project=api-tests"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/y-tikhenkiy/pw-ui.git"
