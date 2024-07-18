@@ -65,7 +65,7 @@ test('should sign in to existing profile', async ({page}) => {
 
 })
 
-test('should open contact details from the contact list', async({page}) => {
+test.only('should open contact details from the contact list', async({page}) => {
   const signInPage = new SignIn(page);
   const fullNameLocator = page.locator(`//table[@id='myTable']/tr[1]/td[2]`);
   const contactFirstName = await page.locator('#firstName');
@@ -80,7 +80,7 @@ test('should open contact details from the contact list', async({page}) => {
   await expect(contactLastName).toHaveText(fullNameArr[1]);
 })
 
-test.only('should add a new contact', async({page}) => {
+test('should add a new contact', async({page}) => {
   const app = new Application(page);
   const contactFirstName = await page.locator('#firstName');
   const contactLastName = await page.locator('#lastName');
