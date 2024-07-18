@@ -1,5 +1,5 @@
-import { defineConfig, devices } from '@playwright/test';
 import 'dotenv/config';
+import { defineConfig, devices } from '@playwright/test';
 
 
 /**
@@ -43,7 +43,7 @@ export default defineConfig({
     },
     {
       name: 'chromium',
-      use: { ...devices["Desktop Chrome"] },
+      use: { ...devices["Desktop Chrome"], headless: false, },
     }//,
 
     // {
